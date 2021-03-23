@@ -1,15 +1,12 @@
-import { MovieDataBase, MovieEntry } from "../models/movies.model";
+import { MovieEntry } from "../models/movies.model";
+import { MovieRepository } from "../repositories/movies.repository";
 import { MovieService } from "./movies.service";
-import { mocked } from "ts-jest/utils"
 
-const myDb: jest.Mocked<MovieDataBase> = new MovieDataBase() as any;
+const myDb: jest.Mocked<MovieRepository> = new MovieRepository() as any;
 
-jest.mock("../models/movies.model");
-beforeAll(() => {
+jest.mock("../repositories/movies.repository");
 
-
-    
-
+beforeEach(() => {
   myDb.getMovies.mockImplementation(() =>{ 
     const entries = [new MovieEntry("111","mockedMovie")];
     return entries;
@@ -24,35 +21,64 @@ myDb.deleteMovie.mockImplementation( (id:string) =>  {
 });
 
 describe("Movie Service Unit Test",()=>{
+    describe("Return all Movies",()=>{
+        it("should return all movies",()=>{  
+            const db = myDb;
+    
+            const service = new MovieService(db);
+            const movies = service.getMovies();
+            expect(movies[0]).toBeInstanceOf(MovieEntry)     
+        })
+    
+        it("should return an error expection",()=>{  
+            const db = myDb; 
+            const service = new MovieService(null);
+            expect(service.getMovies).toThrow(Error);
+            expect(service.getMovies).toThrow("receicing movies failed");            
+        })
+    })
+    
+    describe("Add a Movies",()=>{
+        it("should add a movie",()=>{     
+            const db = myDb;
+    
+            const service = new MovieService(db);
+            const newMovie = new MovieEntry(null,"addedMovie");
+            const moviesLengthBefore = service.getMovies().length;
+            const addedMovie = service.addMovie(newMovie);
+            const moviesLengthAfter = service.getMovies().length;
+    
+            expect(moviesLengthBefore).toEqual(moviesLengthAfter)
+            expect(addedMovie.name).toEqual(newMovie.name);      
+        })
 
-    it("should return all movies",()=>{  
-        const db = myDb;
-
-        const service = new MovieService(db);
-        const movies = service.getMovies();
-        expect(movies[0]).toBeInstanceOf(MovieEntry) 
-
-  
+        it("should return an error while adding a movie",()=>{     
+            const db = myDb;
+    
+            const service = new MovieService(db);
+            const newMovie = new MovieEntry(null,"");
+    
+            expect(()=>{service.addMovie(newMovie)}).toThrow(Error);
+            expect(()=>{service.addMovie(newMovie)}).toThrow("Name cannot be empty");        
+        })
     })
 
-    it("should add a movie",()=>{     
-        const db = myDb;
-
-        const service = new MovieService(db);
-        const newMovie = new MovieEntry(null,"addedMovie");
-        const moviesLengthBefore = service.getMovies().length;
-        const addedMovie = service.addMovie(newMovie);
-        const moviesLengthAfter = service.getMovies().length;
-
-        expect(moviesLengthBefore).toEqual(moviesLengthAfter)
-        expect(addedMovie.name).toEqual(newMovie.name);      
-    })
+    describe("Add a Movies",()=>{
     it("should remove a movie",()=>{
         const db = myDb;
         const service = new MovieService(db);
         const allMovies = service.getMovies();
-
         const movieDeleted = service.deleteMovie(allMovies[0].id);
+
         expect(movieDeleted.length).toEqual(allMovies.length-1);   
+        })
+
+    it("should return an error while deleting a movie",()=>{     
+        const db = myDb;
+        const service = new MovieService(db);
+
+        expect(()=>{service.deleteMovie("thisMovieDoesNotExist")}).toThrow(Error);
+        expect(()=>{service.deleteMovie("thisMovieDoesNotExist")}).toThrow("Element does not exist");  
+        })
     })
 })

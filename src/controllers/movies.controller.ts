@@ -1,11 +1,12 @@
 import { MovieService } from "../services/movies.service"
 import { Request, Response, NextFunction} from "express"
-import { MovieDataBase, MovieEntry } from "../models/movies.model";
+import { MovieEntry } from "../models/movies.model";
+import { MovieRepository } from "../repositories/movies.repository";
 
 export class MovieController{
     private movieService:MovieService
     constructor(){
-        this.movieService= new MovieService(new MovieDataBase());
+        this.movieService= new MovieService(new MovieRepository());
     }
     public getMovies = (req:Request,res:Response,next:NextFunction)=>{
         try{
@@ -36,7 +37,7 @@ export class MovieController{
       
             res.status(201).json({ data: createdMovieData,status:200, message: 'addMovie' });
           } catch (error) {
-            next(error);
+            return res.status(400).json({ status: 400, message: error.message });
           }
     }  
 

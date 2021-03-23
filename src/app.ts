@@ -18,6 +18,7 @@ export class App {
       routes.forEach(route => {
         this.app.use('/', route.router);
       });
+      this.app.use('/*', (req,res,next)=>{res.status(404).send('endpoint not found')});
     }
 
     public start(port:number) {

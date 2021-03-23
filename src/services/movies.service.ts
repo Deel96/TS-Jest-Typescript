@@ -1,8 +1,9 @@
-import {MovieDataBase,MovieEntry} from "../models/movies.model"
+import { MovieEntry } from "../models/movies.model";
+import { MovieRepository } from "../repositories/movies.repository";
 
 export class MovieService {
-    private moviesProvider : MovieDataBase
-    constructor(moviesProvider : MovieDataBase){
+    private moviesProvider : MovieRepository
+    constructor(moviesProvider : MovieRepository){
         this.moviesProvider = moviesProvider;
     }
 
@@ -12,7 +13,7 @@ export class MovieService {
             return  allMovies;
         }
         catch(e){
-
+            throw new Error("receicing movies failed");
         }
     }
     public getMovieById(uuid:string):MovieEntry{
@@ -21,11 +22,17 @@ export class MovieService {
 
     }
     public addMovie(entry : MovieEntry):MovieEntry{
+        if(entry.name.length === 0 ) throw new Error("Name cannot be empty");
+
         const addedMovie = this.moviesProvider.addMovie(entry)
         return addedMovie;
     }
 
     public deleteMovie(uuid:string):MovieEntry[]{
+        const allMovies = this.moviesProvider.getMovies();
+        if (allMovies.filter(entry => entry.id === uuid).length < 1) {
+            throw new Error ("Element does not exist");
+          }
         const deletedMovie = this.moviesProvider.deleteMovie(uuid);
         return deletedMovie;
     }
