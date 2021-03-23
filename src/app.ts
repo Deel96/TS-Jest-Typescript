@@ -1,17 +1,23 @@
 import express from 'express';
-import{MoviesRoutes} from "./routes/movies.routes"
+import bodyParser from "body-parser"
+import { Route } from './interfaces/routes.interface';
+import { MoviesRoutes } from "./routes/movies.routes"
 
 export class App {
 
-    private app:express.Application;
+    public app:express.Application;
 
-    constructor() {
+    constructor(routes :Route[]) {
         this.app = express();
-        this.mountRoutes();
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.mountRoutes(routes);
+       
     }
-    private mountRoutes(): void {
-        const movieRoutes = new MoviesRoutes()
-            this.app.use('/', movieRoutes.router);
+    private mountRoutes(routes: Route[]): void {
+      routes.forEach(route => {
+        this.app.use('/', route.router);
+      });
     }
 
     public start(port:number) {
@@ -20,3 +26,5 @@ export class App {
         });
       }
 }
+
+//TODO Dependencies alle in index.ts

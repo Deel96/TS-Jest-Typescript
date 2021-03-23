@@ -1,5 +1,6 @@
-import {App} from "./app"
+import {App} from "./app";
+import {MoviesRoutes} from "./routes/movies.routes"
 
-const app = new App();
+const app = new App([new MoviesRoutes()]);
 
 app.start(5511);

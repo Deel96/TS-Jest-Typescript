@@ -7,7 +7,8 @@ export class MoviesRoutes{
     constructor(){
         this.router.get("/movies", this.moviesController.getMovies)
         this.router.get("/movies/:id", this.moviesController.getMovieById)
-        this.router.post("movies",this.moviesController.addMovie)
+        this.router.post("/movies",this.moviesController.addMovie)
+        this.router.delete("/movies/:id", this.moviesController.deleteMovieById)
     }
 }
 
