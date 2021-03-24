@@ -23,16 +23,7 @@ describe("Test API",()=>{
         ])
         })
 
-        // it("should return an error on unknwon route",async ()=>{  
-        //     const { body } = await request(testApp.app).get("/moviesUnknown");
-    
-        //     expect(body.status).toEqual(200);
-        //     expect(body.data).toEqual([
-        //         {id:"1",name:"Star Wars"},
-        //         {id:"2",name:"Star Trek"},
-        //         {id:"3",name:"Lord of the Rings"}
-        //     ])
-        //     })
+
     })      
 
     describe("POST /movies",()=>{
