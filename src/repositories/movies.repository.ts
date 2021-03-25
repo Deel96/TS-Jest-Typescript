@@ -17,12 +17,6 @@ export class MovieRepository {
           return result;
     }
 
-    getMovieByName(name:string):MovieEntry{
-        const result = this.movies.find(entry => {
-            return entry.name === name;
-          })
-          return result;
-    }
 
     addMovie(entry:MovieEntry):MovieEntry{
         entry.id =uuidv4();

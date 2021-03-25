@@ -1,12 +1,10 @@
 import express from 'express';
 import bodyParser from "body-parser"
 import { Route } from './interfaces/routes.interface';
-import { MoviesRoutes } from "./routes/movies.routes"
 
 export class App {
 
     public app:express.Application;
-
     constructor(routes :Route[]) {
         this.app = express();
         this.app.use(bodyParser.json());
@@ -27,5 +25,3 @@ export class App {
         });
       }
 }
-
-//TODO Dependencies alle in index.ts
