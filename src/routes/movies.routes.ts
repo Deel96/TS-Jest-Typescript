@@ -1,14 +1,15 @@
 import {Router} from "express"
 import {MovieController} from "../controllers/movies.controller"
-export class MoviesRoutes{
+import { Route } from "../interfaces/routes.interface";
+export class MoviesRoutes implements Route{
     public router = Router();
-    private moviesController = new MovieController();
-
+    private moviesController: MovieController = new MovieController();
+    public path ="/movies"
     constructor(){
-        this.router.get("/movies", this.moviesController.getMovies)
-        this.router.get("/movies/:id", this.moviesController.getMovieById)
-        this.router.post("/movies",this.moviesController.addMovie)
-        this.router.delete("/movies/:id", this.moviesController.deleteMovieById)
+        this.router.get(`${this.path}`, this.moviesController.getMovies)
+        this.router.get(`${this.path}/:id`, this.moviesController.getMovieById)
+        this.router.post(`${this.path}`,this.moviesController.addMovie)
+        this.router.delete(`${this.path}/:id`, this.moviesController.deleteMovieById)
     }
 }
 
