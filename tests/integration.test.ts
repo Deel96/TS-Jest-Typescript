@@ -38,6 +38,7 @@ describe("Test API",()=>{
         expect(body.status).toEqual(200);
         expect(body.message).toEqual("addMovie");
         expect(body.data.name).toEqual("Pulp Fiction");
+        expect(body.data.id).not.toBe("")
     })
 
     it("should return an error on empty moviename route",async ()=>{  

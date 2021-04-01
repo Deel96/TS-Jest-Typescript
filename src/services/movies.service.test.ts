@@ -27,7 +27,9 @@ describe("Movie Service Unit Test",()=>{
     
             const service = new MovieService(db);
             const movies = service.getMovies();
-            expect(movies[0]).toBeInstanceOf(MovieEntry)     
+            expect(movies[0]).toBeInstanceOf(MovieEntry)
+            expect(movies[0].id).toBe("111");
+            expect(movies[0].name).toBe("mockedMovie");
         })
     
         it("should return an error expection",()=>{  
@@ -38,7 +40,7 @@ describe("Movie Service Unit Test",()=>{
         })
     })
     
-    describe("Add a Movies",()=>{
+    describe("Add a Movie",()=>{
         it("should add a movie",()=>{     
             const db = myDb;
     
@@ -63,7 +65,7 @@ describe("Movie Service Unit Test",()=>{
         })
     })
 
-    describe("Add a Movies",()=>{
+    describe("Delete a Movies",()=>{
     it("should remove a movie",()=>{
         const db = myDb;
         const service = new MovieService(db);
