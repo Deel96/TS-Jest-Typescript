@@ -47,7 +47,9 @@ describe("Movie Service Unit Test",()=>{
             const service = new MovieService(db);
             const newMovie = new MovieEntry(null,"addedMovie");
             const addedMovie = service.addMovie(newMovie);
-    
+            
+            expect(addedMovie).toBeInstanceOf(MovieEntry)
+            expect(addedMovie.id).toBe("111");
             expect(addedMovie.name).toEqual(newMovie.name);      
         })
 

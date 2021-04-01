@@ -55,7 +55,7 @@ describe("Test API",()=>{
         })
     })
 
-    describe("POST /movies",()=>{
+    describe("DELETE /movies",()=>{
 
     it("should delete a movie on DELETE /movies",async ()=>{  
         const id =1;
@@ -63,6 +63,9 @@ describe("Test API",()=>{
         const { body } = await request(testApp.app).delete(`/movies/${id}`);
         expect(body.status).toEqual(200);
         expect(body.message).toEqual("deleteMovie");
+
+        expect(body.message).toEqual("deleteMovie");
+
     })
 
     it("should return an error on DELETE /movies",async ()=>{  
