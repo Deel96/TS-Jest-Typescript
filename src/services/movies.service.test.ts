@@ -46,11 +46,8 @@ describe("Movie Service Unit Test",()=>{
     
             const service = new MovieService(db);
             const newMovie = new MovieEntry(null,"addedMovie");
-            const moviesLengthBefore = service.getMovies().length;
             const addedMovie = service.addMovie(newMovie);
-            const moviesLengthAfter = service.getMovies().length;
     
-            expect(moviesLengthBefore).toEqual(moviesLengthAfter)
             expect(addedMovie.name).toEqual(newMovie.name);      
         })
 
