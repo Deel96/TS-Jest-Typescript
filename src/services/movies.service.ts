@@ -29,10 +29,6 @@ export class MovieService {
     }
 
     public deleteMovie(uuid:string):MovieEntry[]{
-        const allMovies = this.moviesProvider.getMovies();
-        if (allMovies.filter(entry => entry.id === uuid).length < 1) {
-            throw new Error ("Element does not exist");
-          }
         const deletedMovie = this.moviesProvider.deleteMovie(uuid);
         return deletedMovie;
     }

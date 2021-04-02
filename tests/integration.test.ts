@@ -58,22 +58,40 @@ describe("Test API",()=>{
     describe("DELETE /movies",()=>{
 
     it("should delete a movie on DELETE /movies",async ()=>{  
-        const id =1;
+        const id ="1";
          
+        const responseBefore = await request(testApp.app).get("/movies");
+        const moviesLengthBefore = responseBefore.body.data.length;
+
         const { body } = await request(testApp.app).delete(`/movies/${id}`);
+       
+
+        const responseAfter = await request(testApp.app).get("/movies");
+        const moviesLengthAfter = responseAfter.body.data.length;
+
         expect(body.status).toEqual(200);
         expect(body.message).toEqual("deleteMovie");
+        expect(moviesLengthAfter).toEqual(moviesLengthBefore-1);
 
-        expect(body.message).toEqual("deleteMovie");
 
     })
 
     it("should return an error on DELETE /movies",async ()=>{  
         const id =-10;
+
+        const responseBefore = await request(testApp.app).get("/movies");
+        const moviesLengthBefore = responseBefore.body.data.length;
          
         const { body } = await request(testApp.app).delete(`/movies/${id}`);
+
+        const responseAfter = await request(testApp.app).get("/movies");
+        const moviesLengthAfter = responseAfter.body.data.length;
+
         expect(body.status).toEqual(400);
         expect(body.message).toEqual("Element does not exist");
+        expect(moviesLengthAfter).toEqual(moviesLengthBefore);
+
+
     })
 
 })

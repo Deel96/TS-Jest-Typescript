@@ -24,10 +24,19 @@ export class MovieRepository {
         return entry;
     }
     deleteMovie(uuid:string):MovieEntry[]{
-        const movies = this.movies.filter((element:MovieEntry)=>{
-            return element.id != uuid;
+        var result = this.movies.filter(entry => {
+            return entry.id === uuid
+          })
+
+          if (result.length < 1) {throw new Error ("Element does not exist");}
+
+        this.movies = this.movies.filter(entry => {
+        return entry.id !== uuid
         })
-        return movies;
+
+        return this.movies;
+
+        
     }
 
 }

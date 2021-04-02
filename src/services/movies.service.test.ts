@@ -16,6 +16,8 @@ beforeEach(() => {
 });
 
 myDb.deleteMovie.mockImplementation( (id:string) =>  {
+ 
+      if (id==="thisMovieDoesNotExist") {throw new Error ("Element does not exist");}
     return [];
 });
 });
