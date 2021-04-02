@@ -20,8 +20,6 @@ describe("Test API",()=>{
             {id:"3",name:"Lord of the Rings"}
         ])
         })
-
-
     })      
 
     describe("POST /movies",()=>{
